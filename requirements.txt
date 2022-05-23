@@ -1,0 +1,8 @@
+# requirements
+
+Django==4.0.4
+django-cors-headers==3.12.0
+mysqlclient==2.1.0
+PyMySQL==1.0.2
+PyJWT==2.4.0
+bcrypt==3.2.2
