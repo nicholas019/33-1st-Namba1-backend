@@ -8,7 +8,7 @@ class User(TimeStampedModel):
     password     = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=13)
     brithday     = models.DateField()
-    address      = models.CharField(max_length=45)
+    address      = models.CharField(max_length=45, null=True)
     agreement    = models.JSONField()
 
     class Meta:
