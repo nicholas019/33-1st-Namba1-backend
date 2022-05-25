@@ -8,7 +8,7 @@ class TimeStampedModel(models.Model):
 
 
 class User(TimeStampedModel):
-    email        = models.CharField(max_length=45)
+    email        = models.CharField(max_length=45, unique=True)
     name         = models.CharField(max_length=15)
     password     = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=13)
@@ -23,7 +23,7 @@ class Delivery(models.Model):
     take_name        = models.CharField(max_length=15)
     take_phonenumber = models.CharField(max_length=15)
     take_homenumber  = models.CharField(max_length=15)
-    address          = models.CharField(max_length=15)
+    address          = models.CharField(max_length=45)
     user             = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:

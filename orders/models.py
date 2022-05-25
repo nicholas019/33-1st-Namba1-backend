@@ -1,3 +1,4 @@
+from enum import unique
 from django.db import models
 
 from users.models import TimeStampedModel, User
@@ -10,6 +11,7 @@ class Cart(TimeStampedModel):
     quantity = models.IntegerField()
     
     class Meta:
+        unique_together = ('user', 'product')
         db_table = 'carts'
 
 class OrderStatus(models.Model):
@@ -33,7 +35,7 @@ class Invoice(models.Model):
     class Meta:
         db_table = 'invoices'
 
-class OrderItime(models.Model): 
+class OrderItem(models.Model): 
     order    = models.ForeignKey(Order, on_delete=models.CASCADE)
     product  = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()

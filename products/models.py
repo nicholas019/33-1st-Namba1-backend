@@ -3,20 +3,20 @@ from django.db import models
 from users.models import TimeStampedModel
 
 class Product(TimeStampedModel):
-    product_name    = models.CharField(max_length=15)
-    product_content = models.CharField(max_length=300)
-    people          = models.IntegerField()
-    cook_time       = models.IntegerField()
-    setting_time    = models.IntegerField()
-    selling_price   = models.DecimalField(max_digits=9, decimal_places=2)
-    discount_price  = models.DecimalField(max_digits=9, decimal_places=2, null=True)
+    name           = models.CharField(max_length=15)
+    content        = models.CharField(max_length=300)
+    people         = models.IntegerField()
+    cook_time      = models.IntegerField()
+    setting_time   = models.IntegerField()
+    selling_price  = models.DecimalField(max_digits=9, decimal_places=2)
+    discount_price = models.DecimalField(max_digits=9, decimal_places=2, null=True)
 
     class Meta:
         db_table = 'products'
 
 class ProductImage(models.Model):
-    product_image = models.CharField(max_length=100)
-    product       = models.ForeignKey(Product, on_delete=models.CASCADE)
+    image   = models.CharField(max_length=300)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     class Meta:
         db_table = 'product_images'
@@ -32,4 +32,4 @@ class ProductTheme(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'product_theme'
+        db_table = 'product_themes'
