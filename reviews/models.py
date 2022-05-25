@@ -1,7 +1,8 @@
 from enum import unique
 from django.db import models
 
-from users.models import TimeStampedModel, User
+from core.models import TimeStampedModel
+from users.models import User
 
 class Review(TimeStampedModel):
     title   = models.CharField(max_length=30)

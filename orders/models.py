@@ -1,7 +1,8 @@
 from enum import unique
 from django.db import models
 
-from users.models import TimeStampedModel, User
+from core.models import TimeStampedModel
+from users.models import User
 from products.models import Product
 
 
@@ -11,7 +12,9 @@ class Cart(TimeStampedModel):
     quantity = models.IntegerField()
     
     class Meta:
-        unique_together = ('user', 'product')
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'product'], name='uniqeu_cart')
+        ]
         db_table = 'carts'
 
 class OrderStatus(models.Model):
