@@ -19,7 +19,7 @@ class ProductImage(models.Model):
     product       = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'productimages'
+        db_table = 'product_images'
 
 class Theme(models.Model):
     theme = models.CharField(max_length=15)
@@ -32,4 +32,4 @@ class ProductTheme(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = 'producttheme'
+        db_table = 'product_theme'

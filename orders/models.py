@@ -16,7 +16,7 @@ class OrderStatus(models.Model):
     status = models.CharField(max_length=15)
 
     class Meta:
-        db_table = 'orderstatuses'
+        db_table = 'order_statuses'
 
 class Order(TimeStampedModel):
     user         = models.ForeignKey(User, on_delete=models.CASCADE)
