@@ -4,12 +4,12 @@ from django.db import models
 from core.models import TimeStampedModel
 
 class Product(TimeStampedModel): 
-    name         = models.CharField(max_length=15)
-    description  = models.CharField(max_length=300)
-    serving      = models.IntegerField()
-    cook_time    = models.IntegerField()
-    setting_time = models.IntegerField()
-    price        = models.DecimalField(max_digits=9, decimal_places=2)
+    name        = models.CharField(max_length=15)
+    description = models.CharField(max_length=300)
+    serving     = models.IntegerField()
+    cook_time   = models.IntegerField()
+    prep_time   = models.IntegerField()
+    price       = models.DecimalField(max_digits=9, decimal_places=2)
 
     class Meta:
         db_table = 'products'
