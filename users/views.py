@@ -15,7 +15,7 @@ class SignupView(View):
             email              = user_data["email"]
             password           = user_data["password"]
             phone_number       = user_data["phoneNumber"]
-            birth              = user_data["brith"]
+            birth              = user_data["birth"]
             agreement          = user_data["agreement"]
             REGEX_EMAIL        = '^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
             REGEX_PASSWORD     = '^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$'
