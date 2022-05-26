@@ -60,7 +60,15 @@ class LoginView(View):
 
             email    = user_data['email']
             password = user_data['password']
+            REGEX_EMAIL        = '^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+            REGEX_PASSWORD     = '^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$'
 
+            if not re.match(REGEX_EMAIL, email):
+                return JsonResponse({"message":"INVALID_EMAIL"}, status=400)
+
+            if not re.match(REGEX_PASSWORD, password):
+                return JsonResponse({"message":"INVALID_PASSWORD "}, status=400)
+                
             user = User.objects.get(email = email)
                 
             if not bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
