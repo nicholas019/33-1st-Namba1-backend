@@ -15,12 +15,12 @@ class SignupView(View):
             email              = user_data["email"]
             password           = user_data["password"]
             phone_number       = user_data["phoneNumber"]
-            birthday           = user_data["brith"]
+            birth              = user_data["brith"]
             agreement          = user_data["agreement"]
             REGEX_EMAIL        = '^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
             REGEX_PASSWORD     = '^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$'
             REGEX_PHONE_NUMBER = '^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$'
-            REGEX_BIRTHDAY     = '^(19[0-9][0-9]|20\d{2})(0[0-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$'
+            REGEX_BIRTHDAY     = '^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$'
 
             if not re.match(REGEX_EMAIL, email):
                 return JsonResponse({"message":"INVALID_EMAIL"}, status=400)
@@ -31,7 +31,7 @@ class SignupView(View):
             if not re.match(REGEX_PHONE_NUMBER, phone_number):
                 return JsonResponse({"message":"INVALID_PHONE_NUMBER"}, status=400)
 
-            if not re.match(REGEX_BIRTHDAY, birthday):
+            if not re.match(REGEX_BIRTHDAY, birth):
                 return JsonResponse({"message":"INVALID_BIRTHDAY"}, status=400)    
 
             if not User.objects.filter(email = email).exists():
@@ -41,7 +41,7 @@ class SignupView(View):
                     email        = email,
                     password     = hash_password,
                     phone_number = phone_number,
-                    brithday     = birthday,
+                    birth        = birth,
                     agreement    = agreement
                     )
                 user.save()
