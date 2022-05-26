@@ -7,7 +7,7 @@ class User(TimeStampedModel):
     name         = models.CharField(max_length=15)
     password     = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=13)
-    brithday     = models.DateField()
+    birth        = models.DateField()
     address      = models.CharField(max_length=45, null=True)
     agreement    = models.JSONField()
 
