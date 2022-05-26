@@ -1,17 +1,23 @@
 from django.http import JsonResponse
 from django.views import View
 
-from .models import Product
+from .models import Product, ProductImage
 
-class ProductView(View):
-    def get(request):
-        products = Product.objects.filter(theme=request.theme)
+# product 
+class ProductThemeView(View):
+    def get(self, request):
+        theme = request.GET.get('theme')  # 
+
+        products = Product.objects.filter(theme=theme)
+        image = ProductImage.objects.filter(product_id = products.id)
         product_list = [{
-                    'id'         : product.id,
-                    'name'      : product.title,
-                    'serving'    : product.content,
-                    'cookTime'  : product.image_url,
-                    'price'  : product.image_url,
+                    "id"      : product.id,
+                    "name"    : product.name,
+                    "serving" : product.serving,
+                    "cookTime": product.cook_time,
+                    "prepTime": product.prep_time,
+                    "price"   : product.price,
+                    "image"   : image,
                 } for product in products]
         
         return JsonResponse({'posting': product_list, 'message': 'SUCCESS'}, status=200)
