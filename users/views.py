@@ -34,19 +34,19 @@ class SignupView(View):
             if not re.match(REGEX_BIRTHDAY, birth):
                 return JsonResponse({"message":"INVALID_BIRTHDAY"}, status=400)    
 
-            if not User.objects.filter(email = email).exists():
-                hash_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-                user = User(
-                    name         = name,
-                    email        = email,
-                    password     = hash_password,
-                    phone_number = phone_number,
-                    birth        = birth,
-                    agreement    = agreement
-                    )
-                user.save()
-                return JsonResponse({"message": "SUCCESS"}, status = 201)
-            return  JsonResponse({"message":"INVALID_EMAIL"}, status=400)   
-            
+            if User.objects.filter(email = email).exists():
+                return  JsonResponse({"message":"INVALID_EMAIL"}, status=400)  
+
+            hash_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+            user = User(
+                name         = name,
+                email        = email,
+                password     = hash_password,
+                phone_number = phone_number,
+                birth        = birth,
+                agreement    = agreement
+                )
+            user.save()
+            return JsonResponse({"message": "SUCCESS"}, status = 201)
         except KeyError:
             return JsonResponse({"message": 'KeyError'}, status = 400)  
