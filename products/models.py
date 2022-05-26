@@ -15,7 +15,7 @@ class Product(TimeStampedModel):
         db_table = 'products'
 
 class Spice(models.Model):
-    spice = models.CharField(max_length=15)
+    spice   = models.CharField(max_length=15)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     class Meta:
