@@ -1,18 +1,25 @@
+from itertools import product
 from django.db import models
 
 from core.models import TimeStampedModel
 
-class Product(TimeStampedModel):
-    name           = models.CharField(max_length=15)
-    content        = models.CharField(max_length=300)
-    people         = models.IntegerField()
-    cook_time      = models.IntegerField()
-    setting_time   = models.IntegerField()
-    selling_price  = models.DecimalField(max_digits=9, decimal_places=2)
-    discount_price = models.DecimalField(max_digits=9, decimal_places=2, null=True)
+class Product(TimeStampedModel): 
+    name        = models.CharField(max_length=15)
+    description = models.CharField(max_length=300)
+    serving     = models.IntegerField()
+    cook_time   = models.IntegerField()
+    prep_time   = models.IntegerField()
+    price       = models.DecimalField(max_digits=9, decimal_places=2)
 
     class Meta:
         db_table = 'products'
+
+class Spice(models.Model):
+    level   = models.CharField(max_length=15)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'spices'
 
 class ProductImage(models.Model):
     image   = models.CharField(max_length=300)
