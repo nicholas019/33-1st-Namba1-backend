@@ -3,14 +3,14 @@ from django.views import View
 
 from .models import Product, Theme
 
-# product 
+
 class ProductThemeView(View):
     def get(self, request):
-        theme = request.GET.get('theme', 'id')
-        sort = request.GET.get('sort', 'id')
+        theme = request.GET.get('theme', "KIDS")
+        sort = request.GET.get('sort', "전체")
 
         sort_type= {
-            "id"     : "id",
+            "전체"    : "id",
             "신메뉴순" : "-id",
             "높은가격순": "-price",
             "낮은가격순": "price"
@@ -25,6 +25,7 @@ class ProductThemeView(View):
             "cookTime": product.cook_time,
             "prepTime": product.prep_time,
             "price"   : product.price,
-            # "image"   : image,
+            "spice"   : [spice.level for spice in product.spice_set.all()],
+            "image"   : [image.image for image in product.productimage_set.all()][0]
         } for product in products]
         return JsonResponse({'product_list': product_list, 'message': 'SUCCESS'}, status=200)
