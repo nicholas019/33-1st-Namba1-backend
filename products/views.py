@@ -31,3 +31,22 @@ class ProductListView(View):
             return JsonResponse({'product_list': product_list, 'message': 'SUCCESS'}, status=200)
         except KeyError:
             return JsonResponse({"message": 'KeyError'}, status = 400)  
+
+
+class ProductDetailView(View):
+    def get(self, request, id):
+        try:
+            products = Product.objects.filter(id = id)
+            product_list = [{
+                "id"      : product.id,
+                "name"    : product.name,
+                "serving" : product.serving,
+                "cookTime": product.cook_time,
+                "prepTime": product.prep_time,
+                "price"   : product.price,
+                "spice"   : [spice.level for spice in product.spice_set.all()],
+                "image"   : [image.image for image in product.productimage_set.all()]
+            } for product in products]
+            return JsonResponse({'product_list': product_list, 'message': 'SUCCESS'}, status=200)
+        except KeyError:
+            return JsonResponse({"message": 'KeyError'}, status = 400)  
