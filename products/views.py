@@ -4,13 +4,12 @@ from django.views import View
 from .models import Product, Theme
 
 
-class ProductThemeView(View):
+class ProductListView(View):
     def get(self, request):
         theme = request.GET.get('theme', "KIDS")
-        sort = request.GET.get('sort', "전체")
+        sort = request.GET.get('sort', "신메뉴순")
 
         sort_type= {
-            "전체"    : "id",
             "신메뉴순" : "-id",
             "높은가격순": "-price",
             "낮은가격순": "price"

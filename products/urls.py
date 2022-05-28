@@ -1,7 +1,7 @@
 from django.urls import path
 
-from products.views import ProductThemeView
+from products.views import ProductListView
 
 urlpatterns = [
-    path('/theme', ProductThemeView.as_view()),
+    path('/list', ProductListView.as_view()),
 ]
