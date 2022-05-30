@@ -29,7 +29,7 @@ class ProductListView(View):
                 "name"    : product.name,
                 "serving" : product.serving,
                 "cookTime": product.cook_time,
-                "price"   : product.price,
+                "price"   : int(product.price),
                 "spice"   : [spice.level for spice in product.spice_set.all()],
                 "image"   : [image.image for image in product.productimage_set.all()][0]
             } for product in products]
