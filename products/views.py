@@ -52,7 +52,7 @@ class ProductDetailView(View):
                 "serving"    : product.serving,
                 "cookTime"   : product.cook_time,
                 "prepTime"   : product.prep_time,
-                "price"      : product.price,
+                "price"      : int(product.price),
                 "spice"      : [spice.level for spice in product.spice_set.all()],
                 "image"      : [image.image for image in product.productimage_set.all()]
             } for product in products]
