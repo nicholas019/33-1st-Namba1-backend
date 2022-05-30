@@ -7,17 +7,23 @@ from .models import Product, Theme
 class ProductListView(View):
     def get(self, request):
         try:
-            theme = request.GET.get('theme', "KIDS")
-            sort = request.GET.get('sort', "신메뉴순")
+            theme  = request.GET.get('theme', "KIDS")
+            sort   = request.GET.get('sort', "신메뉴순")
+            search = request.GET.get('search', None)
+
 
             sort_type= {
                 "신메뉴순" : "-id",
                 "높은가격순": "-price",
                 "낮은가격순": "price"
             }
+            if theme:    
+                themes = Theme.objects.get(theme=theme).id            
+                products = Product.objects.filter(producttheme__theme_id = themes).order_by(sort_type[sort])
 
-            themes = Theme.objects.get(theme=theme).id
-            products = Product.objects.filter(producttheme__theme_id = themes).order_by(sort_type[sort])
+            if search != None:
+                products = Product.objects.filter(name__contains=search).order_by(sort_type[sort])
+
             product_list = [{
                 "id"      : product.id,
                 "name"    : product.name,
