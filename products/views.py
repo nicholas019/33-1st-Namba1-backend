@@ -18,7 +18,7 @@ class ProductListView(View):
                 "낮은가격순": "price"
             }
             if theme:    
-                themes = Theme.objects.get(theme=theme).id            
+                themes   = Theme.objects.get(theme=theme).id
                 products = Product.objects.filter(producttheme__theme_id = themes).order_by(sort_type[sort])
 
             if search != None:
@@ -34,5 +34,8 @@ class ProductListView(View):
                 "image"   : [image.image for image in product.productimage_set.all()][0]
             } for product in products]
             return JsonResponse({'product_list': product_list, 'message': 'SUCCESS'}, status=200)
+
         except KeyError:
             return JsonResponse({"message": 'KeyError'}, status = 400)  
+        except Product.DoesNotExist:
+            return JsonResponse({"message": 'No Data'}, status = 400)
