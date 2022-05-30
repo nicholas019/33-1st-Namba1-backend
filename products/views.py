@@ -44,19 +44,19 @@ class ProductListView(View):
 class ProductDetailView(View):
     def get(self, request, id):
         try:
-            products = Product.objects.filter(id = id)
-            product_detail = [{
-                "id"         : product.id,
-                "name"       : product.name,
-                "description": product.description,
-                "serving"    : product.serving,
-                "cookTime"   : product.cook_time,
-                "prepTime"   : product.prep_time,
-                "price"      : int(product.price),
-                "spice"      : [spice.level for spice in product.spice_set.all()],
-                "image"      : [image.image for image in product.productimage_set.all()]
-            } for product in products]
-            return JsonResponse({'product_list': product_detail, 'message': 'SUCCESS'}, status=200)
+            products = Product.objects.get(id = id)
+            product_detail = {
+                "id"         : products.id,
+                "name"       : products.name,
+                "description": products.description,
+                "serving"    : products.serving,
+                "cookTime"   : products.cook_time,
+                "prepTime"   : products.prep_time,
+                "price"      : int(products.price),
+                "spice"      : [spice.level for spice in products.spice_set.all()],
+                "image"      : [image.image for image in products.productimage_set.all()]
+            }
+            return JsonResponse({'product_detail': product_detail, 'message': 'SUCCESS'}, status=200)
 
         except KeyError:
             return JsonResponse({"message": 'KeyError'}, status = 400)  
