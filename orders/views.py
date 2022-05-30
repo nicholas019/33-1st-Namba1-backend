@@ -12,4 +12,4 @@ class Cart(View):
         product_id = cart_data["product_id"]
         user_id = request.user
         
-        cart =
+        Cart.objects.creat()
