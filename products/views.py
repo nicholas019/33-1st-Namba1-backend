@@ -63,3 +63,40 @@ class ProductDetailView(View):
         except Product.DoesNotExist:
             return JsonResponse({"message": 'No Data'}, status = 400)
 
+class MainProductListView(View):
+    def get(self, request):
+        try:
+            theme = request.GET.get('theme', None)
+            new   = request.GET.get('new', None)
+            all   = request.GET.get('all', None)
+
+            if theme:
+                themes   = Theme.objects.get(theme=theme).id
+                products = Product.objects.filter(producttheme__theme_id = themes).order_by('-id')
+                i = 2
+
+            if new:
+                product  = Product.objects.all().order_by('-id')
+                products = product[:5]
+                i = 1
+
+            if all:
+                products = Product.objects.all().order_by('-id')
+                i = 2
+
+            product_list = [{
+                    "id"      : product.id,
+                    "name"    : product.name,
+                    "serving" : product.serving,
+                    "price"   : int(product.price),
+                    "image"   : [image.image for image in product.productimage_set.all()][i]
+                } for product in products]
+
+
+            return JsonResponse({
+                'product_list': product_list,
+                'message'     : 'SUCCESS'
+                }, status=200)   
+
+        except KeyError:
+            return JsonResponse({"message": 'KeyError'}, status = 400)    
