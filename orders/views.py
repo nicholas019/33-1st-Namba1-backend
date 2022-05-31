@@ -14,7 +14,7 @@ class CartView(View):
         try:
             cart_data = json.loads(request.body)
 
-            quantity   = cart_data["quntity"]
+            quantity   = cart_data["quantity"]
             product_id = cart_data["product_id"]
             user_id    = request.user
             
@@ -24,7 +24,9 @@ class CartView(View):
                                 )
             return JsonResponse({'message':'SUCCES'}, status=200)
         except KeyError:
-            return JsonResponse({"message": 'KEY_ERROR'}, status = 400)    
+            return JsonResponse({"message": 'KEY_ERROR'}, status = 400)   
+        except TypeError:
+            return JsonResponse({"message": '이미 장바구니에 담겨있습니다'}, status = 400)    
 
     @token_reader
     def get(self, request):
@@ -59,12 +61,17 @@ class CartView(View):
             return JsonResponse({"message":"UPDATE SUCCESS"}, status=200) 
         except KeyError:
             return JsonResponse({"message": 'KEY_ERROR'}, status = 400)
+        except Cart.DoesNotExist:
+            return JsonResponse({"message": 'Not found Data'}, status = 400)    
 
 
     def delete(self, request):
-        cart_delete= request.GET.get('delete', None)
-        
-        cart = Cart.objects.get(id = cart_delete)
-        cart.delete()
+        try:    
+            cart_delete= request.GET.get('delete', None)
+            
+            cart = Cart.objects.get(id = cart_delete)
+            cart.delete()
 
-        return JsonResponse({"message":"DELETE SUCCESS"}, status=200) 
+            return JsonResponse({"message":"DELETE SUCCESS"}, status=200) 
+        except Cart.DoesNotExist:
+            return JsonResponse({"message": 'Not found Data'}, status = 400)    
