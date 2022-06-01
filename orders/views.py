@@ -70,4 +70,4 @@ class CartView(View):
     @login_required
     def delete(self, request, cart_id):
         Cart.objects.filter(user_id = request.user.id, id = cart_id).delete()
-        return JsonResponse({"message": 'SUCCESS'},status=200) 
+        return JsonResponse({"message": 'DELETE SUCCESS'},status=200) 
