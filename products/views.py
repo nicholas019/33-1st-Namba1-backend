@@ -7,23 +7,23 @@ from .models import Product, Theme
 class ProductListView(View):
     def get(self, request):
         try:
-            theme  = request.GET.get('theme', "KIDS")
-            sort   = request.GET.get('sort', "신메뉴순")
+            theme_id  = request.GET.get('themeId', None)
             search = request.GET.get('search', None)
+            sort   = request.GET.get('sort', None)
+            is_new = request.GET.get('is_new', None)
+            
+            filter_set = {}
 
+            if theme_id:
+                filter_set["producttheme__theme_id"] = theme_id
 
-            sort_type= {
-                "신메뉴순" : "-id",
-                "높은가격순": "-price",
-                "낮은가격순": "price"
-            }
-            if theme:    
-                themes   = Theme.objects.get(theme=theme).id
-                products = Product.objects.filter(producttheme__theme_id = themes).order_by(sort_type[sort])
+            if search:
+                filter_set["name__contains"] = search
+            
+            if is_new:
+                filter_set["is_new"] = is_new
 
-            if search != None:
-                products = Product.objects.filter(name__contains=search).order_by(sort_type[sort])
-
+            products = Product.objects.filter(**filter_set).order_by(sort)
             product_list = [{
                 "id"      : product.id,
                 "name"    : product.name,
@@ -31,15 +31,12 @@ class ProductListView(View):
                 "cookTime": product.cook_time,
                 "price"   : int(product.price),
                 "spice"   : [spice.level for spice in product.spice_set.all()],
-                "image"   : [image.image for image in product.productimage_set.all()][0]
+                "image"   : product.thumnail_image
             } for product in products]
-            return JsonResponse({'product_list': product_list, 'message': 'SUCCESS'}, status=200)
+            return JsonResponse({'product_list': product_list}, status=200)
 
         except KeyError:
             return JsonResponse({"message": 'KeyError'}, status = 400)  
-        except Product.DoesNotExist:
-            return JsonResponse({"message": 'No Data'}, status = 400)
-
 
 class ProductDetailView(View):
     def get(self, request, id):
@@ -56,10 +53,9 @@ class ProductDetailView(View):
                 "spice"      : [spice.level for spice in products.spice_set.all()],
                 "image"      : [image.image for image in products.productimage_set.all()]
             }
-            return JsonResponse({'product_detail': product_detail, 'message': 'SUCCESS'}, status=200)
+            return JsonResponse({'product_detail': product_detail}, status=200)
 
         except KeyError:
             return JsonResponse({"message": 'KeyError'}, status = 400)  
         except Product.DoesNotExist:
-            return JsonResponse({"message": 'No Data'}, status = 400)
-
+                return JsonResponse({"message": 'Not Found Data'}, status = 400)  
