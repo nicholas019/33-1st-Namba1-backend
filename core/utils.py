@@ -7,7 +7,7 @@ from users.models import User
 
 
 
-def token_reader(func):
+def login_required(func):
     def wrapper(self, request, *args, **kwargs):
         try:
             token        = request.headers.get('Authorization', None)
