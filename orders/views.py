@@ -4,7 +4,6 @@ from django.http import JsonResponse
 from django.views import View
 
 from core.utils import login_required
-from products.models import ProductImage
 from .models import Cart
 
 
@@ -41,7 +40,7 @@ class CartView(View):
                 "user_id" : cart.user_id,
                 "name"    : cart.product.name,
                 "price"   : int(cart.product.price),
-                "image"   : cart. thumnail_image,
+                "image"   : cart.thumnail_image,
                 "quantity": cart.quantity,
             } for cart in carts]
 
@@ -71,4 +70,4 @@ class CartView(View):
     @login_required
     def delete(self, request, cart_id):
         Cart.objects.filter(user_id = request.user.id, id = cart_id).delete()
-        return JsonResponse({"message": 'SUCCESS'},status=200) 
+        return JsonResponse({"message": 'DELETE SUCCESS'},status=200) 
