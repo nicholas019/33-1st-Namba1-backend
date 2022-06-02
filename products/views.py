@@ -9,7 +9,7 @@ class ProductListView(View):
         try:
             theme_id  = request.GET.get('themeId', None)
             search = request.GET.get('search', None)
-            sort   = request.GET.get('sort', None)
+            sort   = request.GET.get('sort', '-id')
             is_new = request.GET.get('is_new', None)
             
             filter_set = {}
