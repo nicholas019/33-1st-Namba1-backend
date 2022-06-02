@@ -20,9 +20,6 @@ class ProductListView(View):
             if search:
                 filter_set["name__contains"] = search
 
-            # if review == None:
-            #     filter_set["reveiw__product_id"] = id
-
             if is_new:
                 filter_set["is_new"] = is_new
 

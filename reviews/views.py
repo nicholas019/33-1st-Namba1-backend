@@ -36,6 +36,7 @@ class ReviewView(View):
         try:
             product_id = request.GET.get('productId', None)
             search     = request.GET.get('search', None)
+            photo     = request.GET.get('photo', None)
             offset     = int(request.GET.get('offset', 0))
             limit      = int(request.GET.get('limit', 10))
             
@@ -47,6 +48,8 @@ class ReviewView(View):
             if search:
                 filter_set["title__contains"] = search
             
+            if photo:
+                filter_set["image__contains"] = photo
 
             reviews = Review.objects.filter(**filter_set).order_by('-id')[offset:offset+limit]
             review_count = Review.objects.all().count()
