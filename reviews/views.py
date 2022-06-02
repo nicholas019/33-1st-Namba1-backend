@@ -1,5 +1,4 @@
 import json
-import datetime
 
 from django.http import JsonResponse
 from django.views import View
@@ -17,7 +16,9 @@ class ReviewView(View):
             title      = data["title"]
             content    = data["userInput"]
             product_id = data["product_id"]
-            
+
+            #TODO : 리뷰를 작성할때 user 정보를 가져와 order에 product_id가 있는지 확인이 되면 작성되도록 if문 작성
+
             Review.objects.create(
                 title      = title,
                 content    = content,

@@ -15,11 +15,10 @@ class CartView(View):
 
             quantity   = data["quantity"]
             product_id = data["product_id"]
-            user_id    = request.user.id
             
             cart, created = Cart.objects.get_or_create(
                 product_id = product_id,
-                user_id    = user_id,
+                user_id    = request.user.id,
                 defaults   = {"quantity" : quantity}
                 )
             if not created:
@@ -37,11 +36,12 @@ class CartView(View):
             carts = Cart.objects.filter(user_id = request.user.id)
             
             cart_list=[{
-                "user_id" : cart.user_id,
-                "name"    : cart.product.name,
-                "price"   : int(cart.product.price),
-                "image"   : cart.thumnail_image,
-                "quantity": cart.quantity,
+                "user_id"    : cart.user_id,
+                "name"       : cart.product.name,
+                "price"      : int(cart.product.price),
+                "image"      : cart.thumnail_image,
+                "quantity"   : cart.quantity,
+                "total_price": int(cart.product.price * cart.quantity),
             } for cart in carts]
 
             return JsonResponse({ "cart":cart_list}, status=200) 
@@ -52,9 +52,9 @@ class CartView(View):
     @login_required
     def patch(self, request, cart_id):
         try:
-            cart_data = json.loads(request.body)
+            data = json.loads(request.body)
 
-            quantity   = cart_data["quantity"]
+            quantity   = data["quantity"]
             
             cart = Cart.objects.get(user_id = request.user.id, cart_id = cart_id)
             cart.quantity = quantity
@@ -70,4 +70,5 @@ class CartView(View):
     @login_required
     def delete(self, request, cart_id):
         Cart.objects.filter(user_id = request.user.id, id = cart_id).delete()
+
         return JsonResponse({"message": 'DELETE SUCCESS'},status=200) 

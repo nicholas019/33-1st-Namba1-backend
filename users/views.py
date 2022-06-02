@@ -10,14 +10,14 @@ from users.models import User
 class SignupView(View):
     def post(self, request):
         try:
-            user_data = json.loads(request.body)
+            data = json.loads(request.body)
             
-            name               = user_data['name']
-            email              = user_data["email"]
-            password           = user_data["password"]
-            phone_number       = user_data["phoneNumber"]
-            birth              = user_data["birth"]
-            agreement          = user_data["agreement"]
+            name               = data['name']
+            email              = data["email"]
+            password           = data["password"]
+            phone_number       = data["phoneNumber"]
+            birth              = data["birth"]
+            agreement          = data["agreement"]
             REGEX_EMAIL        = '^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
             REGEX_PASSWORD     = '^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$'
             REGEX_PHONE_NUMBER = '^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$'
@@ -56,12 +56,12 @@ class SignupView(View):
 class LoginView(View):    
     def post(self, request):
         try:
-            user_data = json.loads(request.body)
+            data = json.loads(request.body)
 
-            email    = user_data['email']
-            password = user_data['password']
-            REGEX_EMAIL        = '^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
-            REGEX_PASSWORD     = '^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$'
+            email          = data['email']
+            password       = data['password']
+            REGEX_EMAIL    = '^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+            REGEX_PASSWORD = '^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$'
 
             if not re.match(REGEX_EMAIL, email):
                 return JsonResponse({"message":"INVALID_EMAIL"}, status=400)
@@ -76,7 +76,7 @@ class LoginView(View):
 
             access_token = jwt.encode({'id':user.id}, settings.SECRET_KEY, settings.ALGORITHM)
 
-            return JsonResponse({"message":"LOGIN SUCCESS", "Token":access_token}, status=200) 
+            return JsonResponse({"USER_NAME":user.name, "Token":access_token}, status=200) 
 
         except KeyError:
             return JsonResponse({"message": 'KEY_ERROR'}, status = 400)
