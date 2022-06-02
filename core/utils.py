@@ -7,6 +7,7 @@ from users.models import User
 
 
 
+
 def login_required(func):
     def wrapper(self, request, *args, **kwargs):
         try:

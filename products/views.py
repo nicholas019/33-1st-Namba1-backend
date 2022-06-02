@@ -19,7 +19,7 @@ class ProductListView(View):
 
             if search:
                 filter_set["name__contains"] = search
-            
+
             if is_new:
                 filter_set["is_new"] = is_new
 
