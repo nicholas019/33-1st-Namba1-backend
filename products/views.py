@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.views import View
 
-from .models import Product, Theme
+from .models import Product
 
 
 class ProductListView(View):
@@ -9,11 +9,11 @@ class ProductListView(View):
         try:
             theme_id  = request.GET.get('themeId', None)
             search = request.GET.get('search', None)
-            sort   = request.GET.get('sort', None)
+            sort   = request.GET.get('sort', '-id')
             is_new = request.GET.get('is_new', None)
             
             filter_set = {}
-
+            # TODO : if 문 제거 하기
             if theme_id:
                 filter_set["producttheme__theme_id"] = theme_id
 
