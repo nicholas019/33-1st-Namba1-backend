@@ -7,23 +7,18 @@ from .models import Product
 class ProductListView(View):
     def get(self, request):
         try:
-            theme_id  = request.GET.get('themeId', None)
-            search = request.GET.get('search', None)
             sort   = request.GET.get('sort', '-id')
-            is_new = request.GET.get('is_new', None)
             
-            filter_set = {}
-            # TODO : if 문 제거 하기
-            if theme_id:
-                filter_set["producttheme__theme_id"] = theme_id
+            filter_set = {
+                "theme_id": "producttheme__theme_id",
+                "search"  : "name__contains",
+                "is_new"  : "is_new"
+            }
+            filter = {
+                filter_set[key] : value for key, value in request.GET.items() if filter_set.get(key)
+                }
 
-            if search:
-                filter_set["name__contains"] = search
-
-            if is_new:
-                filter_set["is_new"] = is_new
-
-            products = Product.objects.filter(**filter_set).order_by(sort)
+            products = Product.objects.filter(**filter).order_by(sort)
             product_list = [{
                 "id"      : product.id,
                 "name"    : product.name,
