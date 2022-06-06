@@ -34,9 +34,9 @@
 ## 🌼 기술 🌼
 **Front-End** : React.js 
 <br/>
-**Back-End** : Python, Django web framework, Bcrypt, MySQL, pyjwt
+**Back-End** : Python, Django web framework, Bcrypt, MySQL, pyjwt, AWS
 <br/>
-**Common** : Git-Hub, slack, trello, AWS
+**Common** : Git-Hub, slack, trello
 
 <br/>
 
@@ -76,7 +76,7 @@
 
 
 ### Orders APP
-#### 1. CartView Page
+#### 1. CartView
  - READ : GET메소드 활용, userid로 조회, user_id는 token을 이용하여 획득, total_price는 DB에 저장하지는 않지만 price와 quantity를 이용해 계산하여 반환
  - CREATE : POST메소드 활용, body에서 json형식으로 제품id와 수량을 받고 token을 이용해 id값을 추가해 DB에 저장, get_or_create 메소드를 활용 존재하지않을땐 생성하고, 이미 존재할땐 수량만 업데이트
  - UPDATE : PATCH메소드 활용, pathparameter에서 주는 cart_id와 token을 이용한 user_id를 이용해 DB조회후 json데이터로 보내준 제품수량 수정
