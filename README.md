@@ -66,7 +66,7 @@
  - 상품 theme관련 filter기능 
  - 상품 정렬 기능(새상품, 가격내림/오름순) 
  - 상품검색 기능 
- - 패킹/언패킹을 이용한 request의 queryparameter 값들을 orm으로 전달, 이후 List Comprehensoin 활용하여 리스트로 반환
+ - 패킹/언패킹을 이용한 request의 queryparameter 값들을 ORM의 키워드파라미터로 전달
  - 기타사항 : 메뉴리스트에서만 사용하는것이 아닌 main페이지에서도 같이 사용
 
 #### 2. ProductDetailView
